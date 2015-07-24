@@ -1,0 +1,15 @@
+
+.header {
+	position: relative;
+	padding: 10px 20px 10px 0px;
+	width: 100%;
+	height: 154px;
+	z-index: 1000;
+	;background: #35363c;
+}
+
+body {
+	background: #f4f4f5;
+}
+
+
