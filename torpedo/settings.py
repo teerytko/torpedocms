@@ -27,6 +27,7 @@ SECRET_KEY = '#2r@gnzyo6x5l7e^41r+w!v8uv2zkyyst(-l0rgm(^w^qktt8$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+LOCAL = True
 
 ALLOWED_HOSTS = []
 
@@ -102,10 +103,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/cms_static/static/'
-MEDIA_URL = '/cms_static/media/'
-MEDIA_ROOT = os.path.join(DATA_DIR, '/home/teerytko/webapps/cms_static/media')
-STATIC_ROOT = os.path.join(DATA_DIR, '/home/teerytko/webapps/cms_static/static')
+if LOCAL:
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
+    STATIC_ROOT = os.path.join(DATA_DIR, 'static')
+else:
+    STATIC_URL = '/cms_static/static/'
+    MEDIA_URL = '/cms_static/media/'
+    MEDIA_ROOT = os.path.join(DATA_DIR, '/home/teerytko/webapps/cms_static/media')
+    STATIC_ROOT = os.path.join(DATA_DIR, '/home/teerytko/webapps/cms_static/static')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'torpedo', 'static'),
@@ -209,7 +216,12 @@ CMS_PLACEHOLDER_CONF = {}
 
 DATABASES = {
     'default':
-        {'USER': '', 'PORT': '', 'ENGINE': 'django.db.backends.sqlite3', 'HOST': 'localhost', 'PASSWORD': '', 'NAME': '/home/teerytko/webapps/django_183/torpedocms/project.db'}
+        {'USER': '',
+        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'HOST': 'localhost',
+        'PASSWORD': '',
+        'NAME': '%s/project.db' % BASE_DIR}
 }
 
 MIGRATION_MODULES = {
@@ -244,7 +256,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/home/teerytko/webapps/django_183/torpedocms/django.log',
+            'filename': '%s/django.log' % BASE_DIR,
             'formatter': 'simple'
             },
         },

@@ -5,16 +5,15 @@
         <meta charset="utf-8">
         <title>{% block title %}This is my new project home page{% endblock title %}</title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap-theme.min.css">
-	
+        <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap-theme.css">
         <link rel="stylesheet" href="{{STATIC_URL}}torpedo/css/torpedo.css">
         {% render_block "css" %}
     </head>
     <body>
         {% cms_toolbar %}
 	<div id="heading" class="header">
-     	    <div class="navbar navbar-inverse" role="navigation">
+     	    <div class="navbar navbar-default" role="navigation">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
@@ -22,7 +21,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><img alt="Brand" src="http://nokiantorpedo.fi/torpedo/media/Dropbox/Torpedo/NT_logo_sm.png"></a>
+                    <a class="navbar-brand" href="#"><img alt="Brand" src="http://nokiantorpedo.fi/torpedo/media/Dropbox/Torpedo/NT_logo_tr_sm.png"></a>
 
                 </div>
                 <div class="navbar-collapse collapse">
@@ -38,7 +37,7 @@
         
 	</div>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
         {% render_block "js" %}
     </body>
 </html>
