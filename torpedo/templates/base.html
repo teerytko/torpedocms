@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>{% block title %}This is my new project home page{% endblock title %}</title>
+        <title>NT - {% block title %}This is my new project home page{% endblock title %}</title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap-theme.css">
@@ -12,29 +12,50 @@
     </head>
     <body>
         {% cms_toolbar %}
-	<div id="heading" class="header">
-     	    <div class="navbar navbar-default" role="navigation">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#"><img alt="Brand" src="http://nokiantorpedo.fi/torpedo/media/Dropbox/Torpedo/NT_logo_tr_sm.png"></a>
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="heading" class="header">
+                <div class="navbar navbar-default" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
 
+                        <div class="visible-sm visible-lg visible-md">
+                            <a class="navbar-brand" href="#"><img alt="Brand" src="http://nokiantorpedo.fi/torpedo/media/Dropbox/Torpedo/NT_logo_tr_sm.png" ></a>
+                        </div>
+                        <div class="visible-xs">
+                            <a class="navbar-brand" href="#"><img alt="Brand" src="http://nokiantorpedo.fi/torpedo/media/Dropbox/Torpedo/NT_logo_tr_sm.png" width="32" height="32"></a>
+                        </div>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            {% show_menu 0 1 100 100 "menu.html" %}
+                        </ul>
+                    </div>
                 </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        {% show_menu 0 1 100 100 "menu.html" %}
-                    </ul>
-                </div>
-            	</div>
             </div>
         </div>
-        <div class="container">
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="subtitle">
+            <div class="col-md-offset-2 col-md-10 col-sm-offset-3 col-sm-9">
+            {% block subtitle %}Nokian Torpedo - Salibandyä vuodesta 2008{% endblock subtitle %}
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+           <div class="col-sm-12">
         {% block content %}{% endblock content %}
-        
+            </div>
+        </div>
 	</div>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
