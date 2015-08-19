@@ -1,0 +1,2 @@
+{% autoescape off %}{"sEcho": {{ echo }},"iTotalRecords":{{ maxcount }},"iTotalDisplayRecords":{{ totalcount }},"aaData": {{ data }}}
+{% endautoescape %}
