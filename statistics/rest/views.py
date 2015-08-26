@@ -1,7 +1,7 @@
 
-from djangorestframework.mixins import ListModelMixin, PaginatorMixin, ModelMixin,InstanceMixin, ReadModelMixin, DeleteModelMixin
-from djangorestframework.views import InstanceModelView, ListOrCreateModelView, ModelView
-from djangorestframework.renderers import BaseRenderer
+from rest_framework.mixins import ListModelMixin, ModelMixin,InstanceMixin, ReadModelMixin, DeleteModelMixin
+from rest_framework.views import InstanceModelView, ListOrCreateModelView, ModelView
+from rest_framework.renderers import BaseRenderer
 from statistics.rest.renderers import DListRenderer, DictRenderer
 from django.db.models.fields import TextField, CharField
 from django.db.models.fields.related import ForeignKey
@@ -67,7 +67,7 @@ class MyInstanceModelView(InstanceMixin, ReadModelMixin, MyUpdateModelMixin, Del
                 self.DATA['league'] = lid
         super(MyInstanceModelView, self).delete(request, *args, **kwargs)
 
-class SearchModelMixin(ListModelMixin, PaginatorMixin):
+class SearchModelMixin(ListModelMixin):
     """
     Behavior to list a set of `model` instances on GET requests
     """

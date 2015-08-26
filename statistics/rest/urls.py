@@ -5,7 +5,8 @@ Created on 28.6.2012
 '''
 
 from django.conf.urls import patterns, url
-from djangorestframework.resources import ModelResource
+#from djangorestframework.resources import ModelResource
+from rest_framework import serializers
 from statistics.models import Team, League, Game, Player, Goal, Penalty
 from statistics.rest.views import ListSearchModelView, MyInstanceModelView
 

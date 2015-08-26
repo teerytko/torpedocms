@@ -7,7 +7,7 @@ Created on 2.7.2012
 
 from operator import itemgetter
 from statistics.rest.utils import to_dlist, get_columns, get_sorting, to_dict
-from djangorestframework.renderers import TemplateRenderer, JSONRenderer
+from rest_framework.renderers import TemplateRenderer, JSONRenderer
 from django.template import RequestContext, loader
 
 def multikeysort(items, columns):
