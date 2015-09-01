@@ -1,7 +1,9 @@
 {% extends 'statistics/base.html' %}
+{% load sekizai_tags %}
+
 
 {% block content %}
-<h2>Available leagues</h2>
+<h2>Availables leagues</h2>
 
 <table class="table table-hover">
     <thead>
@@ -14,33 +16,25 @@
     </thead>
     <tbody>
         {% for l in leagues %}
-        <tr>
+        <tr class="datarow">
             <td><a href="{{ l.id }}">{{ l.id }}</a></td>
             <td>{{ l.name }}</td>
             <td>{{ l.from_date }}</td>
             <td>{{ l.to_date }}</td>
+            <td><span class="glyphicon glyphicon-trash"/></td>
         </tr>
         {% endfor %}
         <tr>
-        <form>
+        <form id="newleague">
+            {% csrf_token %}
             <td></td>
             <td class="form-group">
                 <input type="text" class="form-control" id="name" placeholder="Name">
             </td>
-            <td class="form-group">
-                <input type="date" class="form-control" id="from" placeholder="From">
-            </td>
-            <td class="form-group">
-                <input type="date" class="form-control" id="to" placeholder="To"> 
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
             <td></td>
             <td>
             <div class="form-group pull-right">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" id="submit" class="btn btn-primary">Submit</button>
             </div>                
             </td>
         </form>
@@ -48,8 +42,14 @@
     </tbody>
 </table>
 {% endblock content %}
-{% block scripts %}
-<script>var SOURCEROOT="{{source}}";</script>
-<script src="{{ STATIC_URL }}js/statistics.config.js" type="text/javascript"></script>
-<script src="{{ STATIC_URL }}js/main.view.js" type="text/javascript"></script>
-{% endblock %}
+
+{% block extrajs %}
+    {% addtoblock "js" %}
+    <script>
+    var POSTURL="{{ request.path }}rest/league/"
+    </script>
+    <script src="{{ STATIC_URL }}js/statistics.config.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}js/main.view.js" type="text/javascript"></script>
+    {% endaddtoblock %}
+{% endblock extrajs %}
+

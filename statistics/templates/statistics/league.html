@@ -1,4 +1,10 @@
 {% extends 'statistics/base.html' %}
+{% load sekizai_tags %}
+
+{% addtoblock "js" %}
+<script src="{{ STATIC_URL }}js/statistics.config.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/league.view.js" type="text/javascript"></script>
+{% endaddtoblock %}
 
 {% block content %}
 <h2>League {{league.name}}</h2>
@@ -20,6 +26,8 @@
     guest = models.ForeignKey(Team, related_name='guest', null=True, blank=True)
     league = models.ForeignKey(League, null=True, blank=True)
 -->
+<h3>Games</h3>
+
         {% for game in games %}
         <tr>
             <td><a href="{{ game.id }}">{{ game.id }}</a></td>
@@ -32,7 +40,7 @@
         <form action="">
             <td></td>
             <td class="form-group">
-                <input type="date" class="form-control" id="date" placeholder="Date">
+                <input type="datetime" class="form-control" id="date" placeholder="Date">
             </td>
             <td class="form-group">
                 <input type="text" class="form-control" id="home" placeholder="Home">
