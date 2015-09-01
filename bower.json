@@ -1,0 +1,23 @@
+{
+  "name": "torpedocms",
+  "version": "0.0.1",
+  "homepage": "https://github.com/teerytko/torpedocms",
+  "authors": [
+    "Teemu Rytkönen <teemu.rytkonen@gmail.com>"
+  ],
+  "description": "torpedo page",
+  "main": "manage.py",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

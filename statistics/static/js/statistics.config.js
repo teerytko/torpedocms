@@ -1,9 +1,10 @@
 (function() {
   requirejs.config({
-    baseUrl: STATIC_URL + 'js',
+    baseUrl: STATIC_URL,
     paths: {
+      'jquery': 'bower/jquery/dist/jquery',
+      'bootstrap': 'bower/bootstrap/dist/js/bootstrap',
       'jeditable':  'vendor/jquery.jeditable',
-      'dataTables':  'vendor/jquery.dataTables',
     },
     shim: {
       jutils: {
@@ -12,7 +13,7 @@
       jeditable: {
           deps: ['jquery']
       },
-      dataTables: {
+      bootstrap: {
           deps: ['jquery']
       },
     }
