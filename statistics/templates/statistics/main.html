@@ -10,17 +10,13 @@
         <tr>
             <th>#</th>
             <th>Name</th>
-            <th>Start</th>
-            <th>End</th>
         </tr>
     </thead>
     <tbody>
         {% for l in leagues %}
-        <tr class="datarow">
+        <tr class="datarow" data-id="{{ l.id }}">
             <td><a href="{{ l.id }}">{{ l.id }}</a></td>
             <td>{{ l.name }}</td>
-            <td>{{ l.from_date }}</td>
-            <td>{{ l.to_date }}</td>
             <td><span class="glyphicon glyphicon-trash"/></td>
         </tr>
         {% endfor %}
@@ -31,7 +27,6 @@
             <td class="form-group">
                 <input type="text" class="form-control" id="name" placeholder="Name">
             </td>
-            <td></td>
             <td>
             <div class="form-group pull-right">
                 <button type="submit" id="submit" class="btn btn-primary">Submit</button>
