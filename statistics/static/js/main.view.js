@@ -6,14 +6,15 @@ require(['jquery', 'bootstrap', 'jquerycookie'],
     function onSubmit(e) {
       event.preventDefault();
       var name = $('#name').val();
+      var data = {'name': name,
+                "from_date": null,
+                "to_date": null
+      };
       $.ajax({
         type: "POST",
         headers: {"X-CSRFToken": csrftoken},
         url: POSTURL,
-        data: {'name': name,
-                "from_date": null,
-                "to_date": null
-                },
+        data: data,
         success: function(data)
         {
           location.reload();

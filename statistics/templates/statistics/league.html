@@ -39,8 +39,8 @@
         <tr>
         <form action="">
             <td></td>
-            <td class="form-group">
-                <input type="datetime" class="form-control" id="date" placeholder="Date">
+            <td class="form-group" >
+                <input id="datepicker" type="text" class="form-control" id="date" placeholder="Date">
             </td>
             <td class="form-group">
                 <input type="text" class="form-control" id="home" placeholder="Home">
@@ -64,3 +64,13 @@
 </table>
 
 {% endblock content %}
+{% block extrajs %}
+    {% addtoblock "js" %}
+    <script>
+    var POSTURL="{{ request.path }}rest/games/"
+    </script>
+    <script src="{{ STATIC_URL }}js/statistics.config.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}js/league.view.js" type="text/javascript"></script>
+    {% endaddtoblock %}
+{% endblock extrajs %}
+
