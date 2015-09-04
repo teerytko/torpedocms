@@ -39,7 +39,6 @@ require(['jquery', 'bootstrap', 'jquerycookie'],
       return false;
     };
 
-    $('.datarow span').css('visibility', 'hidden');
     $('#newleague').on('submit', onSubmit);
     $('.datarow').mouseover(function() {
       $( this ).find( "span" ).css('visibility', 'visible');
