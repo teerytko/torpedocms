@@ -3,7 +3,8 @@ require(['jquery', 'bootstrap','jquerycookie', 'bootstrap_datetimepicker', 'loca
   function($, bootstrap, cookie) {
   console.log("Testing!!!!!!!!!!!!")
   $('#datepicker').datetimepicker({
-                    locale: 'fi'
+                    locale: 'fi',
+                    format: 'DD-MM-YYYY HH:mm'
                 });
 
 });

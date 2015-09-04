@@ -1,4 +1,5 @@
 import posixpath
+from datetime import datetime
 
 from django.template import RequestContext, loader
 from django.http import HttpResponse
@@ -6,6 +7,7 @@ from django.http import HttpResponse
 from statistics.models import League, Team, Game, Player, Goal, Penalty
 from django.utils.translation import ugettext as _
 from django.http.response import HttpResponseRedirect
+
 
 from rest_framework import viewsets
 from statistics.serializers import LeagueSerializer, TeamSerializer,\
@@ -28,9 +30,25 @@ def default(request):
     return HttpResponse(t.render(c))
 
 def league(request, league):
-    print "league!!!"
-    t = loader.get_template('statistics/league.html')
     l = League.objects.get(id=league)
+    if request.method == 'POST':
+        date = datetime.strptime(request.POST.get('date'), '%d-%m-%Y %H:%M')
+        home = request.POST.get('home')
+        guest = request.POST.get('guest')
+        home_team, hc = Team.objects.get_or_create(name=home, league=l)
+        guest_team, gc = Team.objects.get_or_create(name=guest, league=l)
+        game = Game.objects.create(
+            date=date,
+            home=home_team,
+            guest=guest_team,
+            league=l)
+        if hc:
+            home_team.save()
+        if gc:
+            guest_team.save()
+        game.save()
+
+    t = loader.get_template('statistics/league.html')
     games = Game.objects.filter(league=l)
     c = RequestContext(request, {
         'league': l,

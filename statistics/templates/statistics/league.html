@@ -37,16 +37,16 @@
         </tr>
         {% endfor %}
         <tr>
-        <form action="">
+        <form action="{{request.path}}" method="post">{% csrf_token %}
             <td></td>
             <td class="form-group" >
-                <input id="datepicker" type="text" class="form-control" id="date" placeholder="Date">
+                <input id="datepicker" type="text" class="form-control" name="date" placeholder="Date">
             </td>
             <td class="form-group">
-                <input type="text" class="form-control" id="home" placeholder="Home">
+                <input type="text" class="form-control" name="home" placeholder="Home">
             </td>
             <td class="form-group">
-                <input type="text" class="form-control" id="guest" placeholder="Guest"> 
+                <input type="text" class="form-control" name="guest" placeholder="Guest">
             </td>
         </tr>
         <tr>
