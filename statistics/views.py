@@ -88,10 +88,79 @@ def team(request, league, team):
 def game(request, league, game):
     l = League.objects.get(id=league)
     game = Game.objects.get(id=game)
+    if request.method == 'POST':
+        print request.POST
+        time = '00:%s' % request.POST['time']
+        if request.POST.get('type') == 'goal':
+            if request.POST['team'] == 'home':
+                team = game.home
+            else:
+                team = game.guest
+            player = Player.objects.get(id=request.POST['player'])
+            if request.POST['assisting'] != 'N/A':
+                assisting = Player.objects.get(id=request.POST['assisting'])
+            else:
+                assisting = None
+            note = request.POST['note']
+            Goal.objects.create(
+                time=time,
+                game=game,
+                team=team,
+                player=player,
+                assisting=assisting,
+                note=note,
+                league=l
+            )
+        elif request.POST.get('type') == 'penalty':
+            if request.POST['team'] == 'home':
+                team = game.home
+            else:
+                team = game.guest
+            player = Player.objects.get(id=request.POST['player'])
+            reason = request.POST['reason']
+            duration = request.POST['duration']
+            Penalty.objects.create(
+                time=time,
+                game=game,
+                team=team,
+                player=player,
+                length=duration,
+                reason=reason,
+                league=l
+            )
+
+    goals = Goal.objects.filter(game=game).order_by('-time')
+    penalties = Penalty.objects.filter(game=game).order_by('-time')
+    # Create events
+    events = []
+    for goal in goals:
+        event = { "type": "goal",
+                  "id": goal.id,
+                  "time": goal.time,
+                  "game": goal.game,
+                  "team": goal.team,
+                  "player": goal.player,
+                  "assisting": goal.assisting,
+                  "note": goal.note}
+        events.append(event)
+    for penalty in penalties:
+        event = { "type": "penalty",
+                  "id": penalty.id,
+                  "time": penalty.time,
+                  "game": penalty.game,
+                  "team": penalty.team,
+                  "player": penalty.player,
+                  "duration": penalty.length,
+                  "reason": penalty.reason}
+
+        events.append(event)
+    events.sort(key=lambda e: e['time'], reverse=True)
     t = loader.get_template('statistics/game.html')
     c = RequestContext(request, {
         'league': l,
         'game': game,
+        'events': events,
+        'goals': goals,
         'source': resturl(request, league)
     })
     return HttpResponse(t.render(c))

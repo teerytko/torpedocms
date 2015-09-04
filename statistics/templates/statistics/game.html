@@ -1,168 +1,215 @@
 {% extends 'statistics/base.html' %}
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-{% block head_datatables %}
-{% endblock %}
+{% load sekizai_tags %}
 
-{% block main %}
-{% include 'statistics/breadcrumb.html' %}
-    <div class="full_width big">
-        <i><div id="game-info"></div></i>
-    </div>
-    
-    <p>Peli tietojen täyttö</p>
-    <div id="dynamic">  
-    <table class="display">
-    <tr><td colspan="2">
-        <!-- pelin perustiedot -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" id="salibandy_game">
-        <thead>
-            <tr>
-                <th width="0%">Id</th>
-                <th width="20%">Aika</th>
-                <th width="15%">Paikka</th>
-                <th width="25%">Koti</th>
-                <th width="25%">Koti</th>
-                <th width="25%">Vieras</th>
-                <th width="25%">Vieras</th>
-                <th width="25%">Koti maalit</th>
-                <th width="25%">Vieras maalit</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="9"></td>
-            </tr>
-        </tbody>
-        </table>
-    </td></tr>
-    <tr><td>
- 
-        <!--<table cellpadding="0" cellspacing="0" border="0" id="content">-->
-        <tr>
-            <th width="50%">Maalit</th>
-            <th width="50%">Rangaistukset</th>
-        </tr>
-        <tr>
-            <td colspan="2"><div id="home-team-info"></div></td>
-        </tr>
-        {% if perms.statistics.change_game %}
-        <tr>
-            <td colspan="1">
-                <a href="javascript:void(0);" id="add-homeGoal" style="color:black">Lisää</a> / 
-                <a href="javascript:void(0);" id="delete-homeGoal" style="color:black">Poista</a> /
-                <a href="javascript:void(0);" id="edit-homeGoal" style="color:black">Muokkaa</a>
-            </td>
-            <td colspan="1">
-                <a href="javascript:void(0);" id="add-homePenalty" style="color:black">Lisää</a> / 
-                <a href="javascript:void(0);" id="delete-homePenalty" style="color:black">Poista</a> /
-                <a href="javascript:void(0);" id="edit-homePenalty" style="color:black">Muokkaa</a>
-            </td>
-        </tr>
-        {% endif %}
-        <tr>
-            <td>
-            <table cellpadding="0" cellspacing="0" border="0" class="display" id="homegoal">
-                <thead>
-                    <tr>
-                        <th width="0%">Id</th>
-                        <th width="10%">Aika</th>
-                        <th width="40%">Tekijä</th>
-                        <th width="40%">Syöttäjä</th>
-                        <th width="10%">Koodi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="5">null</td>
-                    </tr>
-                </tbody>
-            </table>
-            </td>    
-            <td>
-            <table cellpadding="0" cellspacing="0" border="0" class="display" id="homepenalty">
-                <thead>
-                    <tr>
-                        <th width="0%">Id</th>
-                        <th width="10%">Aika</th>
-                        <th width="10%">Kesto</th>
-                        <th width="50%">Pelaaja</th>
-                        <th width="5%">Syy</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="5">null</td>
-                    </tr>
-                </tbody>
-            </table>
-            </td>    
-        </tr>
-        <tr>
-            <td colspan="2"><div id="guest-team-info"></div></td>
-        </tr>
-        {% if perms.statistics.change_game %}
-        <tr>
-            <td colspan="1">
-                <a href="javascript:void(0);" id="add-guestGoal" style="color:black">Lisää</a> / 
-                <a href="javascript:void(0);" id="delete-guestGoal" style="color:black">Poista</a> /
-                <a href="javascript:void(0);" id="edit-guestGoal" style="color:black">Muokkaa</a>
-            </td>
-            <td colspan="1">
-                <a href="javascript:void(0);" id="add-guestPenalty" style="color:black">Lisää</a> / 
-                <a href="javascript:void(0);" id="delete-guestPenalty" style="color:black">Poista</a> /
-                <a href="javascript:void(0);" id="edit-guestPenalty" style="color:black">Muokkaa</a>
-            </td>
-        </tr>
-        {% endif %}
-        <tr>
-            <td>
-            <table cellpadding="0" cellspacing="0" border="0" class="display" id="guestgoal">
-                <thead>
-                    <tr>
-                        <th width="0%">Id</th>
-                        <th width="10%">Aika</th>
-                        <th width="30%">Tekijä</th>
-                        <th width="30%">Syöttäjä</th>
-                        <th width="10%">Koodi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="5">null</td>
-                    </tr>
-                </tbody>
-            </table>
-            </td>    
-            <td>
-            <table cellpadding="0" cellspacing="0" border="0" class="display" id="guestpenalty">
-                <thead>
-                    <tr>
-                        <th width="0%">Id</th>
-                        <th width="10%">Aika</th>
-                        <th width="10%">Kesto</th>
-                        <th width="50%">Pelaaja</th>
-                        <th width="5%">Syy</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="5">null</td>
-                    </tr>
-                </tbody>
-            </table>
-            </td>    
-        </tr>
-        <!--</table> -->
-        
-        </td>    
-    </tr>
-    </table>
+
+{% block content %}
+<div class="pull-right">
+    <a href="../.."><< League</a>
 </div>
-{% endblock %}
 
-{% block scripts %}
-<script>var SOURCEROOT="{{source}}";</script>
-<script src="{{ STATIC_URL }}js/statistics.config.js" type="text/javascript"></script>
-<script src="{{ STATIC_URL }}js/game.view.js" type="text/javascript"></script>
-{% endblock %}
+<div class="jumbotron" style="text-align: center;">
+<h2><a href="../../team/{{ game.home.id }}">{{ game.home.name }}</a> - <a href="../../team/{{ game.guest.id }}">{{ game.guest.name }}</a></h2>
+
+<h3>{{ game.home_goals.count }} - {{ game.guest_goals.count }}</h3>
+
+</div>
+<row>
+<div class="col-sm-12">
+<div class="pull-right">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addEvent">
+Add Event <span class="glyphicon glyphicon-plus"/>
+</button>
+</div>
+</div>
+</row>
+<row>
+<div class="col-sm-12">
+<h4>Events</h4>
+
+{% for e in events %}
+<blockquote>
+  <div class="pull-right">
+      <span data-id="{{e.id}}" data-type="{{e.type}}" style="visibility: hidden" class="glyphicon glyphicon-trash removeevent"/>
+  </div>
+  <p>
+  {% if e.type == 'goal' %}
+  {{e.time }}: Goal {{ e.team.name }} by player #{{ e.player.number }} {{ e.player.name }}. 
+  {% if e.assisting %}
+  Assisted by {{ e.assisting.number }} {{ e.assisting.name }}
+  {% endif %}
+  <footer>{{ goal.note }} Goal</footer>
+  {% else %}
+  {{e.time }}: Penalty {{ e.duration }} {{ e.team.name }} for player #{{ e.player.number }} {{ e.player.name }}. 
+  <footer>Penalty</footer>
+  {% endif %}
+  </p>
+
+</blockquote>
+{% endfor %}
+</div>
+</row>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addEvent" tabindex="-1" role="dialog" aria-labelledby="AddEvent">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="AddEvent">Add Event</h4>
+      </div>
+      <div class="modal-body">
+<!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#goal" aria-controls="goal" role="tab" data-toggle="tab">Goal</a></li>
+    <li role="presentation"><a href="#penalty" aria-controls="penalty" role="tab" data-toggle="tab">Penalty</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="goal">
+        <h5>Add Goal</h5>
+        <form action="." method="post">
+            {% csrf_token %}
+            <input type="hidden" name="type" value="goal">
+            <div class="form-group">
+                <label for="time">Time</label>
+                <input required="true" type="text" class="form-control timepicker" name="time" placeholder="00:00">
+            </div>
+            <div class="form-group">
+                <label for="team">Team</label>
+                <select class="form-control teamselect" name="team">
+                    <option value="home">{{ game.home.name }}</option>
+                    <option value="guest">{{ game.guest.name }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="player">Player</label>
+                <select required="true" class="form-control playerselect" name="player">
+                    <option>N/A</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="assisting">Assisting</label>
+                <select class="form-control playerselect" name="assisting">
+                    <option>N/A</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="note">Note</label>
+                <input type="text" name="note" class="form-control" >
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>      
+    </div>
+    <div role="tabpanel" class="tab-pane" id="penalty">
+        <h5>Add Penalty</h5>
+        <form action="." method="post">
+            {% csrf_token %}
+            <input type="hidden" name="type" value="penalty">
+            <div class="form-group">
+                <label for="time">Time</label>
+                <input required="true" type="text" class="form-control timepicker" name="time" placeholder="00:00">
+            </div>
+            <div class="form-group">
+                <label for="team">Team</label>
+                <select class="form-control teamselect" name="team">
+                    <option value="home">{{ game.home.name }}</option>
+                    <option value="guest">{{ game.guest.name }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="time">Duration</label>
+                <input required="true" type="text" class="form-control timepicker" name="duration" placeholder="02:00" value="02:00">
+            </div>
+            <div class="form-group">
+                <label for="player">Player</label>
+                <select required="true" class="form-control playerselect" name="player">
+                    <option>N/A</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="reason">Reason</label>
+                <select required="true" class="form-control" name="reason">
+<option value="52">52 EPÄURHEILIJAMAINEN KÄYTÖS</option>
+<option value="71">71 ESTÄMINEN</option>
+<option value="93">93 HUITOMINEN</option>
+<option value="54">54 HÄIRITSEVÄ VALMENTAMINEN</option>
+<option value="50">50 KIELTÄYTYMINEN LÄHTEMÄSTÄ RANGAISTUSPENKILTÄ</option>
+<option value="72">72 KIINNIPITÄMINEN</option>
+<option value="82">82 KORKEA JALKA</option>
+<option value="81">81 KORKEA MAILA</option>
+<option value="92">92 KOUKKAAMINEN</option>
+<option value="86">86 KÄDELLÄ TAI KÄSIVARRELLA PELAAMINEN</option>
+<option value="35">35 LIIAN KÄYRÄ MAILAN LAPA</option>
+<option value="42">42 LIIAN MONTA PELAAJAA KAUKALOSSA</option>
+<option value="49">49 LÄHTEMINEN RANGAISTUSPENKILTÄ ENNEN RANGAISTUKSEN PÄÄTTYMISTÄ</option>
+<option von alue="70">70 MAALINPAIKAN KORJAAMATTA JÄTTÄMINEN</option>
+<option value="85">85 MAASTA PELAAMINEN</option>
+<option value="31">31 MAILAN HAKEMINEN MUUALTA KUIN OMALTA VAIHTOALUEELTA</option>
+<option value="94">94 MAILAAN LYÖMINEN TAI POTKAISEMINEN</option>
+<option value="96">96 MAILAN NOSTAMINEN</option>
+<option value="95">95 MAILAN PAINAMINEN TAI SITOMINEN</option>
+<option value="97">97 MAILAN TAI VARUSTEEN HEITTÄMINEN</option>
+<option value="64">64 MAILAN TAI VARUSTEEN RIKKOMINEN</option>
+<option value="36">36 PELAAMINEN ILMAN MAILAA</option>
+<option value="39">PELAAMINEN LAITTOMASTI VAHVISTETULLA TAI PIDENNETYLLÄ MAILALLA</option>
+<option value="38">38 PELAAMINEN VIALLISELLA TAI VAARALLISELLA MAILALLA</option>
+<option value="53">53 PELIN SABOTOIMINEN</option>
+<option value="62">62 PELIN VIIVYTTÄMINEN</option>
+<option value="47">47 PELIOIKEUDETTOMAN PELAAJAN KÄYTTÄMINEN</option>
+<option value="51">51 PROTESTOIMINEN</option>
+<option value="87">87 PÄÄLLÄ PELAAMINEN</option>
+<option value="40">40 RIKE MAALINTEKOTILANTEESSA</option>
+<option value="37">37 RIKKOUTUNEEN TAI PUDONNEEN MAILAN JÄTTÄMINEN PELIKENTÄLLE</option>
+<option val v ue="32">32 SÄÄNTÖJEN VASTAINEN VARUSTE TAI VAATETUS</option>
+<option value="83">83 TAKLAAMINEN, KAATAMINEN TAI KAMPPAAMINEN</option>
+<option value="33">33 TARPEETON MAILAN TARKISTUSPYYNTÖ</option>
+<option value="65">65 TOISTUVA VÄÄRÄ PELITAPA</option>
+<option value="73">73 TYÖNTÄMINEN</option>
+<option value="67">67 VAARALLINEN PELI</option>
+<option value="91">91 VÄKIVALTAISUUS</option>
+<option value="61">61 VÄÄRÄ ETÄISYYS</option>
+<option value="41">41 VÄÄRÄ VAIHTO</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>              
+    </div>
+  </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="homeplayers" style="visibility: hidden;">
+    <option>N/A</option>
+    {% for player in game.home_players %}
+    <option value="{{player.id}}">#{{player.number}} {{player.name}}</option>
+    {% endfor %}
+</div>
+
+<div id="guestplayers" style="visibility: hidden;">
+    <option>N/A</option>
+    {% for player in game.guest_players %}
+    <option value="{{player.id}}">#{{player.number}} {{player.name}}</option>
+    {% endfor %}
+</div>
+
+{% endblock content %}
+
+{% block extrajs %}
+    {% addtoblock "js" %}
+    <script>
+    var GOALURL="{{ request.path }}../../../rest/goal/"
+    var PENALTYURL="{{ request.path }}../../../rest/penalty/"
+    </script>
+    <script src="{{ STATIC_URL }}js/statistics.config.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}js/game.view.js" type="text/javascript"></script>
+    {% endaddtoblock %}
+{% endblock extrajs %}
 
