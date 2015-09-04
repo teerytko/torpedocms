@@ -1,84 +1,57 @@
 {% extends 'statistics/base.html' %}
-{% load i18n %}
-{% block head_datatables %}
-{% endblock %} 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-{% block main %}
-{% include 'statistics/breadcrumb.html' %}
-    <div class="full_width big">
-        <i><div id="team-name"></div></i>
-        </div>
-    <div id="dynamic">
-    <!-- joukkeen pelaajat -->
-    <h2>Pelaajat</h2>
-    <p>
-        <a href="./teams">Takaisin joukkueisiin</a>
-        {% if perms.statistics.change_game %}
-        /
-        <a data-url="/statistics/" id="add">Lisää</a>
-        /
-        <a id="delete">Poista</a>
-        /
-        <a id="edit">Muokkaa</a>
-        {% endif %}
-    </p>
-    <table cellpadding="0" cellspacing="0" border="0" class="display" id="players">
-        <thead>
-            <tr>
-                <th width="10%">Id</th>
-                <th width="15%">Team_id</th>
-                <th width="20%">Number</th>
-                <th width="50%">Name</th>
-                <th width="50%">Rooli</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>null</td>
-                <td>null</td>
-                <td>null</td>
-                <td>null</td>
-                <td>null</td>
-            </tr>
-        </tbody>
-    </table>
-    </div>
-
-<!-- Modal -->
-<div class="modal fade" id="addPlayerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Add player</h4>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-          Lisää uusi pelaaja tai kopio olemassa oleva.
-          <div class="input-group">
-            <div class="input-group-btn">
-                <button id="selected-player" data-selected='new' type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">New <span class="caret"></span></button>
-                <ul id="selectable-players" class="dropdown-menu">
-                    <li><a class="drp-btn" href="#">Dummy</a></li>
-                </ul>
-            </div><!-- /btn-group -->
-          </div><!-- /input-group -->
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" id="dlg-add-player" class="btn btn-primary">Add</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+{% load sekizai_tags %}
 
 
-{% endblock %}
+{% block content %}
+<div class="pull-right">
+    <a href="../.."><< League</a>
+</div>
 
-{% block scripts %}
-<script>var SOURCEROOT="{{source}}";</script>
-<script src="{{ STATIC_URL }}js/statistics.config.js" type="text/javascript"></script>
-<script src="{{ STATIC_URL }}js/team.view.js" type="text/javascript"></script>
-{% endblock %}
+<h2>Team {{ team.name }}</h2>
+
+<h3>Team Players</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in players %}
+        <tr class="datarow" data-id="{{ p.id }}">
+            <td>{{ p.number }}</td>
+            <td>{{ p.name }}</td>
+            <td><span style="visibility: hidden" class="glyphicon glyphicon-trash"/></td>
+        </tr>
+        {% endfor %}
+        <tr>
+        <form id="newplayer" action="." method="post">
+            {% csrf_token %}
+            <td class="form-group">
+                <input type="number" id="number" class="form-control" name="number" placeholder="Number">              
+            </td>
+            <td class="form-group">
+                <input type="text" class="form-control"name="name" placeholder="Name">
+            </td>
+            <td>
+            <div class="form-group pull-right">
+                <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+            </div>                
+            </td>
+        </form>
+        </tr>
+    </tbody>
+</table>
+{% endblock content %}
+
+{% block extrajs %}
+    {% addtoblock "js" %}
+    <script>
+    var PLAYERSURL="{{ request.path }}../../../rest/player/"
+    </script>
+    <script src="{{ STATIC_URL }}js/statistics.config.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}js/team.view.js" type="text/javascript"></script>
+    {% endaddtoblock %}
+{% endblock extrajs %}
+

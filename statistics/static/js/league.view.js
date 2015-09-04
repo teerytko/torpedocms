@@ -4,7 +4,8 @@ require(['jquery', 'bootstrap','jquerycookie', 'bootstrap_datetimepicker', 'loca
     var csrftoken = $.cookie('csrftoken');
     function onDelete(e) {
       event.preventDefault();
-      var rowid = $( this ).parents('.datarow').data('id');
+      var $row = $( this ).parents('.datarow');
+      var rowid = $row.data('id');
       var resurl = GAMESURL+rowid+"/"
 
       $.ajax({
@@ -13,7 +14,7 @@ require(['jquery', 'bootstrap','jquerycookie', 'bootstrap_datetimepicker', 'loca
         url: resurl,
         success: function(data)
         {
-          location.reload();
+          $row.remove();
         }
        });
       return false;

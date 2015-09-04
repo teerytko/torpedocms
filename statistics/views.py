@@ -50,10 +50,78 @@ def league(request, league):
 
     t = loader.get_template('statistics/league.html')
     games = Game.objects.filter(league=l)
+    teams = Team.objects.filter(league=l)
     c = RequestContext(request, {
         'league': l,
         'games': games,
+        'teams': teams,
         'source': resturl(request, league)
+    })
+    return HttpResponse(t.render(c))
+
+def team(request, league, team):
+    l = League.objects.get(id=league)
+    team = Team.objects.get(id=team)
+    if request.method == 'POST':
+        number = request.POST.get('number')
+        name = request.POST.get('name')
+        print "Saving a new player"
+        player = Player.objects.create(
+            number=number,
+            name=name,
+            team=team,
+            league=l)
+        player.save()
+
+    teamplayers = Player.objects.filter(team=team, league=league).order_by('number')
+
+
+    t = loader.get_template('statistics/team.html')
+    c = RequestContext(request, {
+        'league': l,
+        'team': team,
+        'players': teamplayers,
+        'source': resturl(request, league)
+    })
+    return HttpResponse(t.render(c))
+
+def game(request, league, game):
+    l = League.objects.get(id=league)
+    game = Game.objects.get(id=game)
+    t = loader.get_template('statistics/game.html')
+    c = RequestContext(request, {
+        'league': l,
+        'game': game,
+        'source': resturl(request, league)
+    })
+    return HttpResponse(t.render(c))
+
+def games(request, league):
+    l = League.objects.get(id=league)
+    t = loader.get_template('statistics/games.html')
+    c = RequestContext(request, {
+        'league': l,
+        'source': resturl(request, league)
+    })
+    return HttpResponse(t.render(c))
+
+def teams(request, league):
+    l = League.objects.get(id=league)
+    t = loader.get_template('statistics/teams.html')
+    c = RequestContext(request, {
+        'league': l,
+        'source': resturl(request, league)
+    })
+    return HttpResponse(t.render(c))
+
+def players_dlg(request, league):
+    l = League.objects.get(id=league)
+    t = loader.get_template('statistics/players_dlg.html')
+    players = Player.objects.all()
+    c = RequestContext(request, {
+        'league': l,
+        'source': resturl(request, league),
+        'players': players
     })
     return HttpResponse(t.render(c))
 
@@ -78,52 +146,6 @@ def players(request, league):
     })
     return HttpResponse(t.render(c))
 
-def games(request, league):
-    l = League.objects.get(id=league)
-    t = loader.get_template('statistics/games.html')
-    c = RequestContext(request, {
-        'league': l,
-        'source': resturl(request, league)
-    })
-    return HttpResponse(t.render(c))
-
-def teams(request, league):
-    l = League.objects.get(id=league)
-    t = loader.get_template('statistics/teams.html')
-    c = RequestContext(request, {
-        'league': l,
-        'source': resturl(request, league)
-    })
-    return HttpResponse(t.render(c))
-
-def team(request, league):
-    l = League.objects.get(id=league)
-    t = loader.get_template('statistics/team.html')
-    c = RequestContext(request, {
-        'league': l,
-        'source': resturl(request, league)
-    })
-    return HttpResponse(t.render(c))
-
-def game(request, league):
-    l = League.objects.get(id=league)
-    t = loader.get_template('statistics/game.html')
-    c = RequestContext(request, {
-        'league': l,
-        'source': resturl(request, league)
-    })
-    return HttpResponse(t.render(c))
-
-def players_dlg(request, league):
-    l = League.objects.get(id=league)
-    t = loader.get_template('statistics/players_dlg.html')
-    players = Player.objects.all()
-    c = RequestContext(request, {
-        'league': l,
-        'source': resturl(request, league),
-        'players': players
-    })
-    return HttpResponse(t.render(c))
 
 
 
