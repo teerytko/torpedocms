@@ -27,7 +27,6 @@ require(['jquery', 'bootstrap', 'jquerycookie', 'bootstrap_datetimepicker', 'loc
       else
         resurl = PENALTYURL+rowid+"/"
 
-
       $.ajax({
         type: "DELETE",
         headers: {"X-CSRFToken": csrftoken},
@@ -50,6 +49,10 @@ require(['jquery', 'bootstrap', 'jquerycookie', 'bootstrap_datetimepicker', 'loc
     $('.timepicker').datetimepicker({
                       locale: 'fi',
                       format: 'mm:ss'
+                  });
+    $('.datetimepicker').datetimepicker({
+                      locale: 'fi',
+                      format: 'DD-MM-YYYY HH:mm'
                   });
     selectTeam('home');
 

@@ -7,6 +7,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib import admin
 from django.db.models import Sum
+from django.db.models import Q
 
 
 class League(models.Model):
@@ -28,6 +29,48 @@ class Team(models.Model):
     name =  models.TextField(null=True, blank=True)
     league = models.ForeignKey(League, null=True, blank=True)
     #players = models.ManyToManyField('Player', related_name="teams", null=True, blank=True)
+
+    @property
+    def games(self):
+        return Game.objects.filter(Q(home=self) | Q(guest=self))
+
+    @property
+    def wins(self):
+        games = Game.objects.filter(Q(home=self) | Q(guest=self))
+        return filter(lambda g: g.winner == self, games)
+
+    @property
+    def ties(self):
+        games = Game.objects.filter(Q(home=self) | Q(guest=self))
+        return filter(lambda g: g.winner == None, games)
+
+    @property
+    def lost(self):
+        games = Game.objects.filter(Q(home=self) | Q(guest=self))
+        return filter(lambda g: g.winner != None and g.winner != self, games)
+
+    @property
+    def points(self):
+        return len(self.wins) * 2 + len(self.ties)
+
+    @property
+    def goals(self):
+        return Goal.objects.filter(team=self)
+
+    @property
+    def goals_against(self):
+        ga = []
+        homegames = Game.objects.filter(home=self)
+        for game in homegames:
+            ga += game.guest_goals
+        guestgames = Game.objects.filter(guest=self)
+        for game in guestgames:
+            ga += game.home_goals
+        return ga
+
+    @property
+    def goal_difference(self):
+        return self.goals.count() - len(self.goals_against)
 
     def __unicode__(self):
         return "Team: %r" % self.name
@@ -58,8 +101,7 @@ class Game(models.Model):
 
     @property
     def home_goals(self):
-        home_goals = Goal.objects.filter(game=self, team=self.home)
-        return home_goals
+        return Goal.objects.filter(game=self, team=self.home)
 
     @property
     def guest_goals(self):
@@ -74,13 +116,27 @@ class Game(models.Model):
         return Player.objects.filter(team=self.guest, league=self.league)
 
     def __unicode__(self):
-        return "Game: %s, %r - %r" % (self.date, self.home, self.guest)
+        return "Game: %s, %s - %s : %s - %s" % \
+        (self.date, self.home,
+         self.guest, self.home_goals.count(),
+         self.guest_goals.count())
 
     @property
     def played(self):
         now = datetime.now()
         gamedate = self.date.replace(tzinfo=None)
         return (now-gamedate).total_seconds() > 0
+
+    @property
+    def winner(self):
+        print "Debugging winner"
+        print self
+        if self.home_goals.count() > self.guest_goals.count():
+            return self.home
+        elif self.home_goals.count() < self.guest_goals.count():
+            return self.guest
+        else:
+            return None
 
 class Player(models.Model):
     number = models.IntegerField(blank=True)

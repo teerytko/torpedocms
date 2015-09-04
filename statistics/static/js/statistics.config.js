@@ -8,6 +8,8 @@
       'moment':  'bower/moment/min/moment.min',
       'bootstrap_datetimepicker':  'bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min',
       'locale_fi': 'bower/moment/locale/fi',
+      'tablesorter': 'js/vendor/jquery.tablesorter',
+      'tablesorter_pager': 'js/vendor/jquery.tablesorter.pager',
     },
     shim: {
       jutils: {

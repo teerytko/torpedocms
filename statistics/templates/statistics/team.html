@@ -3,8 +3,11 @@
 
 
 {% block content %}
-<div class="pull-right">
+<div class="pull-left">
     <a href="../.."><< League</a>
+</div>
+<div class="pull-right">
+    <a href="../../statistics">Statistics >></a>
 </div>
 
 <h2>Team {{ team.name }}</h2>
@@ -43,6 +46,95 @@
         </tr>
     </tbody>
 </table>
+
+<h3>Team statistics</h3>
+<div class="col-sm-12">
+<h3>Stats</h3>
+<table class="table table-hover" id="teamstats">
+    <thead>
+        <tr>
+            <th>Games</th>
+            <th>W</th>
+            <th>L</th>
+            <th>T</th>
+            <th>P</th>
+            <th>G</th>
+            <th>GA</th>
+            <th>GD</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ team.games.count }}</td>
+            <td>{{ team.wins|length }}</td>
+            <td>{{ team.lost|length }}</td>
+            <td>{{ team.ties|length }}</td>
+            <td>{{ team.points }}</td>
+            <td>{{ team.goals.count }}</td>
+            <td>{{ team.goals_against|length }}</td>
+            <td>{{ team.goal_difference }}</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<div class="col-md-6 col-sm-12">
+<h3>Players</h3>
+<table class="table table-hover" id="playerstats">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Goals</th>
+            <th>Assists</th>
+            <th>Points</th>
+            <th>Penalties</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in players %}
+        <tr>
+            <td>{{ p.number }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.goals }}</td>
+            <td>{{ p.assists }}</td>
+            <td>{{ p.points }}</td>
+            <td>{{ p.penalties }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<div class="col-md-6 col-sm-12">
+<h3>Games</h3>
+<table class="table table-hover" id="gamestats">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Home</th>
+            <th>Guest</th>
+            <th>Score</th>
+            <th>Winner</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for g in team.games %}
+        <tr>
+            <td><a href="../../game/{{ g.id }}">{{ g.id }}</a></td>
+            <td>{{ g.date }}</td>
+            <td>{{ g.home.name }}</td>
+            <td>{{ g.guest.name }}</td>
+            <td>{{ g.home_goals.count }} - {{ g.guest_goals.count }}</td>
+            <td>{{ g.winner }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
 {% endblock content %}
 
 {% block extrajs %}

@@ -1,5 +1,5 @@
 (function() {
-require(['jquery', 'bootstrap','jquerycookie'], 
+require(['jquery', 'bootstrap','jquerycookie', 'tablesorter'], 
   function($, bootstrap, cookie) {
     var csrftoken = $.cookie('csrftoken');
     function onDelete(e) {
@@ -25,6 +25,8 @@ require(['jquery', 'bootstrap','jquerycookie'],
     }).mouseout(function() {
       $( this ).find( "span" ).css('visibility', 'hidden');
     });
+    $('#playerstats').tablesorter({sortList: [[5,1], [3,1], [4,1]]});
+
     $('.datarow span').click(onDelete);
     $('#number').focus();
 

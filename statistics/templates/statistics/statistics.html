@@ -1,32 +1,83 @@
 {% extends 'statistics/base.html' %}
-{% block head_datatables %} 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
-{% endblock %}
+{% load sekizai_tags %}
 
-{% block main %}
-{% include 'statistics/breadcrumb.html' %}
 
-<table cellpadding="0" cellspacing="0" border="0" class="display" id="players">
+{% block content %}
+<h2>League statistics</h2>
+
+<div class="col-md-6 col-sm-12">
+<h3>Players</h3>
+<table class="table table-hover" id="playerstats">
     <thead>
         <tr>
-            <th width="0%">Id</th>
-            <th width="15%">Pelaaja</th>
-            <th width="15%">Nimi</th>
-            <th width="20%">Joukkue</th>
-            <th width="5%">Maalit</th>
-            <th width="5%">Syötöt</th>
-            <th width="5%">Pisteet</th>
-            <th width="5%">Jäähyt</th>
+            <th>#</th>
+            <th>Name</th>
+            <th>Team</th>
+            <th>Goals</th>
+            <th>Assists</th>
+            <th>Points</th>
+            <th>Penalties</th>
         </tr>
     </thead>
     <tbody>
+        {% for p in players %}
         <tr>
-            <td colspan="8">null</td>
+            <td>{{ p.number }}</td>
+            <td>{{ p.name }}</td>
+            <td><a href="../team/{{ p.team.id }}">{{ p.team.name }}</a></td>
+            <td>{{ p.goals }}</td>
+            <td>{{ p.assists }}</td>
+            <td>{{ p.points }}</td>
+            <td>{{ p.penalties }}</td>
         </tr>
+        {% endfor %}
     </tbody>
 </table>
-{% endblock %}
-{% block scripts %}
-<script src="{{ STATIC_URL }}js/statistics.config.js" type="text/javascript"></script>
-<script src="{{ STATIC_URL }}js/main.view.js" type="text/javascript"></script>
-{% endblock %}
+</div>
+
+<div class="col-md-6 col-sm-12">
+<h3>Teams</h3>
+<table class="table table-hover" id="teamstats">
+    <thead>
+        <tr>
+            <th>Team</th>
+            <th>Games</th>
+            <th>W</th>
+            <th>L</th>
+            <th>T</th>
+            <th>P</th>
+            <th>G</th>
+            <th>GA</th>
+            <th>GD</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in teams %}
+        <tr>
+            <td><a href="../team/{{ t.id }}">{{ t.name }}</a></td>
+            <td>{{ t.games.count }}</td>
+            <td>{{ t.wins|length }}</td>
+            <td>{{ t.lost|length }}</td>
+            <td>{{ t.ties|length }}</td>
+            <td>{{ t.points }}</td>
+            <td>{{ t.goals.count }}</td>
+            <td>{{ t.goals_against|length }}</td>
+            <td>{{ t.goal_difference }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock content %}
+
+{% block extrajs %}
+    {% addtoblock "js" %}
+    <script>
+    var POSTURL="{{ request.path }}rest/league/"
+    </script>
+    <script src="{{ STATIC_URL }}js/statistics.config.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}js/statistics.view.js" type="text/javascript"></script>
+    {% endaddtoblock %}
+{% endblock extrajs %}
+

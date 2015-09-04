@@ -7,8 +7,11 @@
 {% endaddtoblock %}
 
 {% block content %}
-<div class="pull-right">
+<div class="pull-left">
     <a href=".."><< Leagues</a>
+</div>
+<div class="pull-right">
+    <a href="./statistics/">Statistics >></a>
 </div>
 
 <h2>League {{league.name}}</h2>
@@ -25,6 +28,8 @@
                 <th>Date</th>
                 <th>Home</th>
                 <th>Guest</th>
+                <th>Score</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +39,11 @@
             <td>{{ game.date }}</td>
             <td>{{ game.home.name }}</td>
             <td>{{ game.guest.name }}</td>
+            {% if game.played %}
+            <td>{{ game.home_goals.count }} - {{ game.guest_goals.count }}</td>
+            {% else %}
+            <td>---</td>
+            {% endif %}
             <td><span style="visibility: hidden" class="glyphicon glyphicon-trash"/></td>
         </tr>
         {% endfor %}

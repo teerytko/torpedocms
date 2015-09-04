@@ -8,7 +8,6 @@ from statistics.models import League, Team, Game, Player, Goal, Penalty
 from django.utils.translation import ugettext as _
 from django.http.response import HttpResponseRedirect
 
-
 from rest_framework import viewsets
 from statistics.serializers import LeagueSerializer, TeamSerializer,\
 GameSerializer, PlayerSerializer, GoalSerializer, PenaltySerializer
@@ -49,7 +48,7 @@ def league(request, league):
         game.save()
 
     t = loader.get_template('statistics/league.html')
-    games = Game.objects.filter(league=l)
+    games = Game.objects.filter(league=l).order_by('date')
     teams = Team.objects.filter(league=l)
     c = RequestContext(request, {
         'league': l,
@@ -75,7 +74,6 @@ def team(request, league, team):
 
     teamplayers = Player.objects.filter(team=team, league=league).order_by('number')
 
-
     t = loader.get_template('statistics/team.html')
     c = RequestContext(request, {
         'league': l,
@@ -90,8 +88,8 @@ def game(request, league, game):
     game = Game.objects.get(id=game)
     if request.method == 'POST':
         print request.POST
-        time = '00:%s' % request.POST['time']
         if request.POST.get('type') == 'goal':
+            time = '00:%s' % request.POST['time']
             if request.POST['team'] == 'home':
                 team = game.home
             else:
@@ -112,6 +110,7 @@ def game(request, league, game):
                 league=l
             )
         elif request.POST.get('type') == 'penalty':
+            time = '00:%s' % request.POST['time']
             if request.POST['team'] == 'home':
                 team = game.home
             else:
@@ -128,9 +127,21 @@ def game(request, league, game):
                 reason=reason,
                 league=l
             )
+        elif request.POST.get('type') == 'details':
+            date = datetime.strptime(request.POST.get('date'), '%d-%m-%Y %H:%M')
+            home = int(request.POST.get('home'))
+            guest = int(request.POST.get('guest'))
+            home_team = Team.objects.get(id=home, league=l)
+            guest_team = Team.objects.get(id=guest, league=l)
+            print "Updating details"
+            game.date = date
+            game.home = home_team
+            game.guest = guest_team
+            game.save()
 
     goals = Goal.objects.filter(game=game).order_by('-time')
     penalties = Penalty.objects.filter(game=game).order_by('-time')
+    teams = Team.objects.filter(league=l)
     # Create events
     events = []
     for goal in goals:
@@ -160,7 +171,22 @@ def game(request, league, game):
         'league': l,
         'game': game,
         'events': events,
-        'goals': goals,
+        'teams': teams,
+        'source': resturl(request, league)
+    })
+    return HttpResponse(t.render(c))
+
+
+def statistics(request, league):
+    print "statistics!!!"
+    t = loader.get_template('statistics/statistics.html')
+    l = League.objects.get(id=league)
+    players = Player.objects.filter(league=l)
+    teams = Team.objects.filter(league=l)
+    c = RequestContext(request, {
+        'league': l,
+        'players': players,
+        'teams': teams,
         'source': resturl(request, league)
     })
     return HttpResponse(t.render(c))
@@ -194,17 +220,6 @@ def players_dlg(request, league):
     })
     return HttpResponse(t.render(c))
 
-
-def statistics(request, league):
-    print "statistics!!!"
-    t = loader.get_template('statistics/main.html')
-    l = League.objects.get(id=league)
-    c = RequestContext(request, {
-        'league': l,
-        'leagues': League.objects.all(),
-        'source': resturl(request, league)
-    })
-    return HttpResponse(t.render(c))
 
 def players(request, league):
     l = League.objects.get(id=league)
