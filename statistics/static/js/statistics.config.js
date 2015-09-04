@@ -8,6 +8,7 @@
       'moment':  'bower/moment/min/moment.min',
       'bootstrap_datetimepicker':  'bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min',
       'locale_fi': 'bower/moment/locale/fi',
+      'jquery_migrate': 'bower/jquery-migrate/jquery-migrate.min',
       'tablesorter': 'js/vendor/jquery.tablesorter',
       'tablesorter_pager': 'js/vendor/jquery.tablesorter.pager',
     },
@@ -23,6 +24,12 @@
       },
       bootstrap_datetimepicker: {
           deps: ['moment', 'jquery', 'bootstrap']
+      },
+      tablesorter: {
+          deps: ['jquery', 'jquery_migrate']
+      },
+      tablesorter_pager: {
+          deps: ['jquery', 'jquery_migrate']
       },
     }
   });

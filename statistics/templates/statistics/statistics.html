@@ -3,8 +3,14 @@
 
 
 {% block content %}
+<row>
+<div class="col-sm-12">
+<div class="pull-left">
+    <a href=".."><< League</a>
+</div>
+</div>
+</row>
 <h2>League statistics</h2>
-
 <div class="col-md-6 col-sm-12">
 <h3>Players</h3>
 <table class="table table-hover" id="playerstats">
@@ -33,6 +39,35 @@
         {% endfor %}
     </tbody>
 </table>
+<div id="pager" class="pager">
+    <row>
+    <form>
+    <div class="col-sm-1">
+        <span class="glyphicon glyphicon-fast-backward first"/>
+    </div>
+    <div class="col-sm-1">
+        <span class="glyphicon glyphicon-backward prev"/>
+    </div>
+    <div class="col-sm-6">
+        <input type="text" class="pagedisplay"/>
+    </div>
+    <div class="col-sm-1">
+        <span class="glyphicon glyphicon-forward next"/>
+    </div>
+    <div class="col-sm-1">
+        <span class="glyphicon glyphicon-fast-forward last"/>
+    </div>
+    <div class="col-sm-2">
+        <select class="pagesize">
+            <option selected="selected" value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+        </select>
+    </div>
+    </form>
+    </row>
+</div>
 </div>
 
 <div class="col-md-6 col-sm-12">
