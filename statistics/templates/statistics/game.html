@@ -17,19 +17,10 @@
 <h3>{{ game.home_goals.count }} - {{ game.guest_goals.count }}</h3>
 
 </div>
+
+
 <row>
 <div class="col-sm-12">
-<div class="pull-right">
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#editgame">
-Edit <span class="glyphicon glyphicon-pencil"/>
-</button>
-</div>
-</div>
-</row>
-<row>
-<div class="col-sm-12">
-<h4>Events</h4>
 
 {% for e in events %}
 <blockquote>
@@ -54,6 +45,17 @@ Edit <span class="glyphicon glyphicon-pencil"/>
 </div>
 </row>
 
+
+<row>
+<div class="col-sm-12">
+<div class="pull-right">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#editgame">
+Edit <span class="glyphicon glyphicon-pencil"/>
+</button>
+</div>
+</div>
+</row>
 
 <!-- Modal -->
 <div class="modal fade" id="editgame" tabindex="-1" role="dialog" aria-labelledby="Edit">
