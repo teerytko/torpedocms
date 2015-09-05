@@ -147,7 +147,7 @@ def game(request, league, game):
     for goal in goals:
         event = { "type": "goal",
                   "id": goal.id,
-                  "time": goal.time,
+                  "time": goal.time.strftime("%M:%S"),
                   "game": goal.game,
                   "team": goal.team,
                   "player": goal.player,
@@ -157,7 +157,7 @@ def game(request, league, game):
     for penalty in penalties:
         event = { "type": "penalty",
                   "id": penalty.id,
-                  "time": penalty.time,
+                  "time": penalty.time.strftime("%M:%S"),
                   "game": penalty.game,
                   "team": penalty.team,
                   "player": penalty.player,
