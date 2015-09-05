@@ -123,7 +123,7 @@ class Game(models.Model):
 
     @property
     def played(self):
-        now = datetime.now()
+        now = datetime.now() + timedelta(hours=3)
         gamedate = self.date.replace(tzinfo=None)
         return (now-gamedate).total_seconds() > 0
 
