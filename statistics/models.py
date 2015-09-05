@@ -37,17 +37,17 @@ class Team(models.Model):
     @property
     def wins(self):
         games = Game.objects.filter(Q(home=self) | Q(guest=self))
-        return filter(lambda g: g.winner == self, games)
+        return filter(lambda g: g.played and g.winner == self, games)
 
     @property
     def ties(self):
         games = Game.objects.filter(Q(home=self) | Q(guest=self))
-        return filter(lambda g: g.winner == None, games)
+        return filter(lambda g: g.played and g.winner == None, games)
 
     @property
     def lost(self):
         games = Game.objects.filter(Q(home=self) | Q(guest=self))
-        return filter(lambda g: g.winner != None and g.winner != self, games)
+        return filter(lambda g: g.played and g.winner != None and g.winner != self, games)
 
     @property
     def points(self):
